@@ -21,6 +21,8 @@ class AppAsset extends AssetBundle
         'css/site.css',
     ];
     public $js = [
+        //add jquery sortable on mobile devices
+        'js/jquery.ui.touch-punch.min.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

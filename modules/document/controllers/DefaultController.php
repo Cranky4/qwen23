@@ -4,12 +4,15 @@
 
     use app\modules\document\models\Document;
     use yii\helpers\Url;
-    use yii\helpers\VarDumper;
     use yii\web\Controller;
     use yii\web\HttpException;
 
     class DefaultController extends Controller
     {
+        /**
+         * Documents list page
+         * @return string
+         */
         public function actionIndex()
         {
             return $this->render(
@@ -20,6 +23,10 @@
             );
         }
 
+        /**
+         * Add document page
+         * @return string
+         */
         public function actionAdd()
         {
             return $this->render(
@@ -30,6 +37,14 @@
             );
         }
 
+        /**
+         * Update document page
+         *
+         * @param $id
+         *
+         * @return string
+         * @throws \yii\web\HttpException
+         */
         public function actionUpdate($id)
         {
             /**
@@ -50,6 +65,8 @@
         }
 
         /**
+         * Save or update document
+         *
          * @param null $id
          *
          * @throws \yii\web\HttpException
@@ -71,11 +88,16 @@
             }
         }
 
+        /**
+         * Delete document
+         *
+         * @param $id
+         *
+         * @throws \yii\web\HttpException
+         */
         public function actionDelete($id)
         {
-            /**
-             * @var Document $document
-             */
+            /* @var Document $document */
             if (\Yii::$app->request->isPost && ($document = Document::findOne(["id" => $id]))) {
                 $document->delete();
                 $this->redirect(Url::toRoute(['/document/default/index']));

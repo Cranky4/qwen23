@@ -10,7 +10,6 @@
 
     use app\modules\document\models\Attachment;
     use yii\helpers\FileHelper;
-    use yii\helpers\VarDumper;
     use yii\web\Controller;
 
     class FileController extends Controller
@@ -74,10 +73,9 @@
         {
             if (\Yii::$app->request->isPost && \Yii::$app->request->isAjax) {
                 $attachment_id = \Yii::$app->request->post('attachment_id');
-                $root = \Yii::getAlias('@webroot');
                 //if attachment with id is exists
                 if ($attachment = Attachment::findOne(["id" => $attachment_id])) {
-                    //delete from db
+                    /* @var Attachment $attachment*/
                     $attachment->delete();
 
                     echo \yii\helpers\Json::encode(['status' => '1']);

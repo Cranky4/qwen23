@@ -8,7 +8,11 @@
     /* @var $form ActiveForm */
     /* @var \app\modules\document\models\Attachment[] $attachments */
     /* @var array $storedFiles */
+    $title = $model->isNewRecord ? "Добавить документ" : "Редактировать ".$model->name;
+    $this->title = $title;
 ?>
+<h1><?= $title ?></h1>
+
 <div class="default-document">
 
     <?php $form = ActiveForm::begin(
