@@ -9,52 +9,29 @@
     namespace app\modules\document\controllers;
 
     use app\modules\document\models\Attachment;
-    use yii\helpers\FileHelper;
+    use app\modules\document\models\File;
     use yii\web\Controller;
+    use yii\web\HttpException;
 
     class FileController extends Controller
     {
 
+        /**
+         * @return bool
+         * @throws \HttpException
+         */
         public function actionUpload()
         {
             $fileName = 'attachments';
-            $root = \Yii::getAlias('@webroot');
-            $path = '/uploads/'.date('Y-m-d');
-            $uploadPath = $root.$path;
-
-            //check for the existence of a folder
-            if (!file_exists($uploadPath)) {
-                FileHelper::createDirectory($uploadPath, 0777, true);
-            }
 
             //check for the existence of a sending file
             if (isset($_FILES[$fileName])) {
-                $file = \yii\web\UploadedFile::getInstanceByName($fileName);
-
-                if ($file->hasError) {
-                    throw new \HttpException(500, 'Upload error');
-                }
-
-                //check for file with same name is exists
-                $srcPath = $path.'/'.$file->name;
-                $savePath = $uploadPath.'/'.$file->name;
-                if (file_exists($savePath)) {
-                    $t = time();
-                    $savePath = $uploadPath.'/'.$t."_".$file->name;
-                    $srcPath = $path.'/'.$t."_".$file->name;
-                }
-
-                //move uploaded file and save it into database
-                if ($file->saveAs($savePath)) {
-                    $attachment = new Attachment();
-                    $attachment->name = $file->name;
-                    $attachment->size = $file->size;
-                    $attachment->path = $srcPath;
-                    if (!$attachment->save()) {
-                        return false;
-                    }
-
+                $model = new File();
+                $model->file = \yii\web\UploadedFile::getInstanceByName($fileName);
+                if ($attachment = $model->upload()) {
                     echo \yii\helpers\Json::encode($attachment);
+                } else {
+                    throw new HttpException(400,"File upload error");
                 }
             }
 
@@ -75,7 +52,7 @@
                 $attachment_id = \Yii::$app->request->post('attachment_id');
                 //if attachment with id is exists
                 if ($attachment = Attachment::findOne(["id" => $attachment_id])) {
-                    /* @var Attachment $attachment*/
+                    /* @var Attachment $attachment */
                     $attachment->delete();
 
                     echo \yii\helpers\Json::encode(['status' => '1']);

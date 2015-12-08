@@ -3,6 +3,7 @@
     namespace app\modules\document\models;
 
     use Yii;
+    use yii\web\UploadedFile;
 
     /**
      * This is the model class for table "attachment".
@@ -72,6 +73,25 @@
             }
 
             parent::afterDelete();
+        }
+
+        /**
+         * @param \yii\web\UploadedFile $file
+         * @param $srcPath
+         *
+         * @return \app\modules\document\models\Attachment|bool
+         */
+        public static function createNew(UploadedFile $file, $srcPath)
+        {
+            $attachment = new self();
+            $attachment->name = $file->name;
+            $attachment->size = $file->size;
+            $attachment->path = $srcPath;
+            if (!$attachment->save()) {
+                return false;
+            }
+
+            return $attachment;
         }
 
 
