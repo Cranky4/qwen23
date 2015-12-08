@@ -18,8 +18,7 @@
         {
             $this->view->registerJs('var files = '.\yii\helpers\Json::encode($files));
             $this->view->registerJs(
-                '
-                if(files) {
+                'if(files) {
                     var inputName = "'.Html::getInputName(new Document(), 'attachments[]').'";
                     for (var i=0; i<files.length; i++) {
                         '.$this->dropzoneName.'.emit("addedfile", files[i]);
@@ -29,6 +28,8 @@
                         //add attachment id to preview template
                         $(files[i].previewTemplate).append("<input type=\"hidden\" name=\""+inputName+"\" value=\""+files[i].id+"\"/>");
 
+                        //add link to download
+                        $(files[i].previewTemplate).append("<a class=\"dz-open\" href=\""+files[i].imageUrl+"\" target=\"_blank\"> Open </a>");
                     }
                 }'
             );

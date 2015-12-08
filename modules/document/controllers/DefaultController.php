@@ -102,7 +102,7 @@
                 $document->delete();
                 $this->redirect(Url::toRoute(['/document/default/index']));
             }
-            throw new HttpException(404);
+            throw new HttpException(404, "Unable to find document with id = $id");
         }
 
     }

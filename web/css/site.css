@@ -100,3 +100,11 @@ a.desc:after {
         margin-right: 0;
     }
 }
+
+.dz-open {
+    font-size: 14px;
+    text-align: center;
+    display: block;
+    cursor: pointer;
+    border: none;
+}

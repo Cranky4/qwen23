@@ -7,7 +7,6 @@
     use yii\data\ActiveDataProvider;
     use yii\db\ActiveQuery;
     use yii\db\Expression;
-    use yii\helpers\VarDumper;
     use yii\web\HttpException;
 
     /**
@@ -34,7 +33,7 @@
          */
         public static function tableName()
         {
-            return 'document';
+            return 'documents';
         }
 
         /**

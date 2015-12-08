@@ -30,7 +30,7 @@
     ); ?>
 
     <?= $form->field($model, 'name') ?>
-    <?= $form->field($model, 'description') ?>
+    <?= $form->field($model, 'description')->textarea(['rows' => 5]) ?>
 
     <?php
         $field = $form->field($model, 'attachments');
@@ -67,7 +67,14 @@
                 ], // dropzone js options
             ]
         );
-        $field->template = "{label}$dropzoneWidgetHtml{error}";
+        $field->hint(
+            "Допустимые форматы: png, jpg, doc, txt, rtf, pdf",
+            [
+                'class' => 'alert alert-info',
+                'tag'   => 'div',
+            ]
+        );
+        $field->template = "{label}$dropzoneWidgetHtml{error}{hint}";
         echo $field;
     ?>
 

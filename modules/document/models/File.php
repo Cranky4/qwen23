@@ -24,7 +24,7 @@
         {
             return [
                 //
-                [['file'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg, doc, txt, rtf'],
+                [['file'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg, doc, txt, rtf, pdf'],
             ];
         }
 

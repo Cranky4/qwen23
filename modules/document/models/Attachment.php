@@ -3,6 +3,8 @@
     namespace app\modules\document\models;
 
     use Yii;
+    use yii\behaviors\TimestampBehavior;
+    use yii\db\Expression;
     use yii\web\UploadedFile;
 
     /**
@@ -24,7 +26,7 @@
          */
         public static function tableName()
         {
-            return 'attachment';
+            return 'attachments';
         }
 
         /**
@@ -94,5 +96,17 @@
             return $attachment;
         }
 
+        public function behaviors()
+        {
+            return [
+                //create and update timestamps after save model
+                [
+                    'class'              => TimestampBehavior::className(),
+                    'createdAtAttribute' => 'created',
+                    'updatedAtAttribute' => 'updated',
+                    'value'              => new Expression('UNIX_TIMESTAMP()'),
+                ],
+            ];
+        }
 
     }
