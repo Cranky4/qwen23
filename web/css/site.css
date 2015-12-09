@@ -108,3 +108,7 @@ a.desc:after {
     cursor: pointer;
     border: none;
 }
+
+.document-view .file_preview {
+    max-height: 100px;
+}

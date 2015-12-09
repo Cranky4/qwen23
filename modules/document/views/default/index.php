@@ -44,7 +44,7 @@
                 ],
                 [
                     'class'         => 'yii\grid\ActionColumn',
-                    'template'      => '{update} {delete}',
+                    'template'      => '{view} {update} {delete}',
                     'buttonOptions' => [
                         'class' => 'big',
                     ],

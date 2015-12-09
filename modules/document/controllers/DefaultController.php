@@ -83,7 +83,7 @@
             }
             if ($model->load(\Yii::$app->request->post())) {
                 if ($document_id = $model->saveDocument()) {
-                    $this->redirect(Url::toRoute(['/document/default/update/', 'id' => $document_id]));
+                    $this->redirect(Url::toRoute(['/document/default/view/', 'id' => $document_id]));
                 }
             }
         }
@@ -103,6 +103,26 @@
                 $this->redirect(Url::toRoute(['/document/default/index']));
             }
             throw new HttpException(404, "Unable to find document with id = $id");
+        }
+
+        public function actionView($id)
+        {
+            /**
+             * @var Document $model
+             */
+            $model = Document::findOne(['id' => $id]);
+            if (null === $model) {
+                throw new HttpException(404);
+            }
+            $attachments = $model->getAttachments()->all();
+
+            return $this->render(
+                "view",
+                [
+                    "model"       => $model,
+                    "attachments" => $attachments,
+                ]
+            );
         }
 
     }

@@ -5,6 +5,7 @@
     use Yii;
     use yii\behaviors\TimestampBehavior;
     use yii\db\Expression;
+    use yii\helpers\FileHelper;
     use yii\web\UploadedFile;
 
     /**
@@ -21,6 +22,8 @@
      */
     class Attachment extends \yii\db\ActiveRecord
     {
+        const DEFAULT_FILE_PREVIEW = "/uploads/default_file_preview.png";
+
         /**
          * @inheritdoc
          */
@@ -107,6 +110,48 @@
                     'value'              => new Expression('UNIX_TIMESTAMP()'),
                 ],
             ];
+        }
+
+        /**
+         * @return string
+         */
+        public function getPath()
+        {
+            if ($this->path) {
+                return "/web".$this->path;
+            }
+
+            return false;
+        }
+
+        /**
+         * @return bool
+         * @throws \yii\base\InvalidConfigException
+         */
+        public function isImage()
+        {
+            if ($file = $this->path) {
+                $root = Yii::getAlias('@webroot');
+                $mimeType = FileHelper::getMimeType($root.$file);
+                $mimeTypePieces = explode("/", $mimeType);
+                if ($mimeTypePieces[0] && $mimeTypePieces[0] == 'image') {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        /**
+         * @return string
+         */
+        public function getPreviewPath()
+        {
+            if ($this->isImage()) {
+                return $this->path;
+            }
+
+            return self::DEFAULT_FILE_PREVIEW;
         }
 
     }
